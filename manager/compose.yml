@@ -1,0 +1,45 @@
+services:
+  init:
+    image: dsh-purge-desktop/workbuddy-manager:2.11.9
+    user: root
+    entrypoint: ["python", "/seed/initialize.py"]
+    volumes:
+      - shared:/shared
+      - ./initialize.py:/seed/initialize.py:ro
+      - ./config.example.json:/seed/config.example.json:ro
+    restart: "no"
+  upstream:
+    image: dsh-purge-desktop/workbuddy2api:2.11.9
+    entrypoint: ["/app/wb2api", "-config", "/shared/config.json"]
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    volumes:
+      - shared:/shared
+      - "${DSH_PURGE_HOME}/prompt-inject.md:/shared/prompt.md:ro"
+    ports:
+      - "127.0.0.1:${DSH_WB_API_PORT:-18863}:7863"
+    restart: unless-stopped
+  manager:
+    image: dsh-purge-desktop/workbuddy-manager:2.11.9
+    environment:
+      WB2API_BASE: http://upstream:7863
+      WB_UPSTREAM_DIR: /opt/workbuddy2api
+      WB_UPSTREAM_CONFIG: /opt/workbuddy2api/config.json
+      WB_AUTH_DIR: /opt/workbuddy2api/auths
+      WB_SECURE_COOKIE: "false"
+      WB_ADMIN_PASSWORD: "${WB_ADMIN_PASSWORD:?Run the WorkBuddy launcher first}"
+    volumes:
+      - shared:/opt/workbuddy2api
+      - manager-data:/app/data
+    ports:
+      - "127.0.0.1:${DSH_WB_MANAGER_PORT:-18864}:7864"
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      upstream:
+        condition: service_started
+    restart: unless-stopped
+volumes:
+  shared:
+  manager-data:
