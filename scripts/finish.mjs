@@ -1,0 +1,12 @@
+import { readFileSync, writeFileSync, copyFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const app = resolve(process.argv[2]);
+const here = fileURLToPath(new URL('.', import.meta.url));
+const lib = join(app, 'Contents/Resources/app/lib');
+const main = join(lib, 'main.js');
+const marker = '//#region ../../packages/util/home-paths/lib/index.js';
+const original = readFileSync(main, 'utf8');
+if (original.split(marker).length !== 2) throw new Error('Unexpected desktop main.js');
+writeFileSync(main, original.replace(marker, 'import { bootstrapPortable } from "./dsh-purge-bootstrap.mjs";\nbootstrapPortable(app);\n' + marker));
+copyFileSync(join(here, 'bootstrap.mjs'), join(lib, 'dsh-purge-bootstrap.mjs'));
