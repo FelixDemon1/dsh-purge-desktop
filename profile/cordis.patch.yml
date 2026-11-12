@@ -7,3 +7,5 @@
   name: "@fffangchenghao/dsh-web-search"
   config:
     wait: all
+- id: portable-presets
+  name: dsh-portable-presets

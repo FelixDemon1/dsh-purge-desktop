@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "@fffangchenghao/dsh-web-search": "0.24.0",
-    "dsh-purge-community": "file:pkgs/purge.tgz"
+    "dsh-purge-community": "file:pkgs/purge.tgz",
+    "dsh-portable-presets": "file:pkgs/portable-presets"
   },
   "dsh": {"profile": {"bundles": ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-web-app", "@fffangchenghao/dsh-web-search", "dsh-purge-community"]}}
 }
