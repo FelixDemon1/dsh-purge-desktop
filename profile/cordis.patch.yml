@@ -1,0 +1,9 @@
+- id: web
+  name: "@deepseek-ai/dsh-web"
+  config:
+    searchProvider: bing
+    fetchProvider: http
+- id: web-search-bing
+  name: "@fffangchenghao/dsh-web-search"
+  config:
+    wait: all
