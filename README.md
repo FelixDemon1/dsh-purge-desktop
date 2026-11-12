@@ -41,7 +41,7 @@
 在 Apple Silicon Mac 上安装 Node.js 和 npm 后，在本仓库目录运行：
 
 ```bash
-./scripts/build.sh
+bash scripts/build.sh
 ```
 
 脚本下载指定版本的官方 DSH 和 Purge，检查下载哈希及原始 DSH 签名，安装固定版本的搜索插件，应用补丁并在 `dist/` 生成 ZIP 和校验文件。构建后的应用经过修改，签名不是 DeepSeek 官方签名。构建过程需要联网，依赖上游下载地址和 npm 可用。
