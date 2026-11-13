@@ -1,0 +1,17 @@
+.DS_Store
+dist/
+build/
+node_modules/
+__pycache__/
+*.pyc
+*.app/
+*.zip
+*.tgz
+.env
+.env.*
+!.env.example
+credentials*
+.credentials*
+manager/admin-password.txt
+sessions/
+storages/
